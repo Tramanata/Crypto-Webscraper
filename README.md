@@ -1,5 +1,7 @@
 ## Crypto Webscraper
 
+![image](https://github.com/user-attachments/assets/cf396365-5743-4835-b395-da07bedefab4)
+
 This Python script uses **Playwright** for web scraping and **psycopg2** to insert data into a PostgreSQL database.
 
 ### 1. Scraping Data with Playwright
@@ -20,6 +22,21 @@ This Python script uses **Playwright** for web scraping and **psycopg2** to inse
 - A connection is made to a PostgreSQL database using **psycopg2**.
 - The script inserts the data into the `crypto` table using the `execute_values` function, which is efficient for bulk inserts.
 - The connection is committed and closed.
+
+![image](https://github.com/user-attachments/assets/ab6d4d5c-a956-4ae6-97d8-864076ee990c)
+- Wrote this query to generate the table
+
+
+## Challenge
+- I ran into a challenge with the size of the data types for my table values
+![image](https://github.com/user-attachments/assets/a90ea95a-5da3-4236-bf20-d9c362ea9f54)
+
+- To solve this problem, I adjusted the size of the integer data types
+![image](https://github.com/user-attachments/assets/943f139e-95b3-4187-9d2c-3025511d7992)
+
+  
+
+
 
 ### Notes
 - The code uses a headless browser for scraping, but the `headless=False` option allows the browser window to be visible.
