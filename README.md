@@ -27,12 +27,18 @@ This Python script uses **Playwright** for web scraping and **psycopg2** to inse
 - Wrote this query to generate the table
 
 
-## Challenge
+### Challenge
 - I ran into a challenge with the size of the data types for my table values
 ![image](https://github.com/user-attachments/assets/a90ea95a-5da3-4236-bf20-d9c362ea9f54)
 
 - To solve this problem, I adjusted the size of the integer data types
 ![image](https://github.com/user-attachments/assets/943f139e-95b3-4187-9d2c-3025511d7992)
+
+
+
+### Output
+![image](https://github.com/user-attachments/assets/7ba0b1a9-3f05-49de-90ab-286488bb5ad5)
+
 
   
 
