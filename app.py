@@ -4,22 +4,22 @@ from psycopg2.extras import execute_values
 
 def main():
     with sync_playwright() as p:
-        ##divided into 2 sections 
+        ## divided into 2 sections 
         # 1) scraping
         browser = p.chromium.launch(headless=False) #opens the website
-        #headless = False we see browser popup
+        # headless = False we see browser popup
         page = browser.new_page()
         page.goto('https://coinmarketcap.com/')
         
-        #playwright need to scroll down page before scraping
+        # playwright need to scroll down page before scraping
         for i in range(5):
             page.mouse.wheel(0, 2000)
             page.wait_for_timeout(1000)
         
-        #sc-7b3ac367-3 etbcea cmc-table
+        # sc-7b3ac367-3 etbcea cmc-table
         trs_xpath = "//table[@class='sc-7b3ac367-3 etbcea cmc-table']/tbody/tr"
         trs_list = page.query_selector_all(trs_xpath)
-        #print(len(trs_list)) should print 100 items in the crypto list
+        # print(len(trs_list)) should print 100 items in the crypto list
         
         master_list = []
         for tr in trs_list:
@@ -36,10 +36,33 @@ def main():
             
             master_list.append(coin_dict)
         
-        # 2) saving data to PostgresSQL
+        
+        # tuples (id, name, symbol, ...)
         list_of_tuples = [tuple(dic.values()) for dic in master_list]
     
+        # 2) saving data to PostgresSQL
+        
+        # connect to db
+        pgconn = psycopg2.connect(
+            host = 'localhost',
+            database = 'personalprojects',
+            user = 'postgres',
+            password = 'tylerpostgres'
+        )
+        
+        # create cursor to write code
+        pgcursor = pgconn.cursor()
+        
+        execute_values(pgcursor, 
+           "INSERT INTO crypto (id, name, symbol, price_usd, market_cap_usd, volume_24h_usd) VALUES %s",
+           list_of_tuples)
 
+        # commit
+        pgconn.commit()
+        
+        # close the connection
+        pgconn.close()
+        
         browser.close()
 if __name__ == '__main__':
     main()
